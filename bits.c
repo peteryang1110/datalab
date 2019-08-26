@@ -172,7 +172,7 @@ NOTES:
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
-  return ~x | ~y;
+  return ~(~x | ~y);
 }
 /* 
  * getByte - Extract byte n from word x
