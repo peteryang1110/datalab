@@ -214,7 +214,7 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
-  return 2;
+  return ~((x | (~x + 1)) >> 31) & 1;
 }
 /* 
  * tmin - return minimum two's complement integer 
