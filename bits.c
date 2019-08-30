@@ -198,7 +198,7 @@ int logicalShift(int x, int n) {
   a = !!a;
   x = x + (a << 31);
   x = x >> n;
-  x = x + (a << (31 - n));
+  x = x + (a << (31 + ~n + 1));
   return x;
 }
 /*
