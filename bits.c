@@ -281,7 +281,13 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int a = x >> 31;
+  int b = y >> 31;
+  a = !!a;
+  b = !!b;
+  x = x + (a << 31);
+  y = y + (b << 31);
+  return (!((!a) & b)) & ((a & !b) | !((y + ~x + 1) >> 31));
 }
 /*
  * extra credit
