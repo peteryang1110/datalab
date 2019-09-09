@@ -293,12 +293,10 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  int a = x >> 31;    // to check if x is positive or negative
-  int b = y >> 31;    // same as above
-  a = !!a;            // a becomes 1 when x is negative
-  b = !!b;            // same as above
-  x = x + (a << 31);  // separate x to two different parts to avoid overflow
-  y = y + (b << 31);  // same as above
+  int a = (x >> 31) & 1;  // to check if x is positive or negative
+  int b = (y >> 31) & 1;  // same as above
+  x = x + (a << 31);      // separate x to two different parts to avoid overflow
+  y = y + (b << 31);      // same as above
 
   // if x is negative and y is positive, return 1 immediately
   // if x is positive and y is negative, return 0 immediately
