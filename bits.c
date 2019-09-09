@@ -172,6 +172,7 @@ NOTES:
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
+  // basic De'Morgan's Law
   return ~(~x | ~y);
 }
 /* 
@@ -183,6 +184,7 @@ int bitAnd(int x, int y) {
  *   Rating: 2
  */
 int getByte(int x, int n) {
+  // shifting 0xff left and right to get byte
   return (x & 0xff << (n << 3)) >> (n << 3) & 0xff;
 }
 /* 
@@ -194,11 +196,10 @@ int getByte(int x, int n) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  int a = x >> 31;
-  a = !!a;
-  x = x + (a << 31);
-  x = x >> n;
-  x = x + (a << (31 + ~n + 1));
+  int a = (x >> 31) & 1;         // check if x is positive or negative
+  x = x + (a << 31);             // separate the number to two part. a is the first bit of the number, x is the other part of the number
+  x = x >> n;                    // shift the other part of the number so it won't give you 1s when the number is negative
+  x = x + (a << (31 + ~n + 1));  // after shifting the first bit particularly, add back to the number
   return x;
 }
 /*
@@ -219,6 +220,9 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
+  // "(x | -x) >> 31" = -1 when x is not 0
+  //                  = 0  when x is 0
+  // add one to return 0 or 1
   return ((x | (~x + 1)) >> 31) + 1;
 }
 /* 
@@ -228,6 +232,7 @@ int bang(int x) {
  *   Rating: 1
  */
 int tmin(void) {
+  // 0x80000000 is the minimum two's complement integer
   return 1 << 31;
 }
 /* 
@@ -251,6 +256,8 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
+  // 1 << n = 2 ^ n
+  // x / (1 << n) = x / 2 ^n
   return x / (1 << n);
 }
 /* 
@@ -261,6 +268,7 @@ int divpwr2(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
+  // basic rule to find -x
   return ~x + 1;
 }
 /* 
@@ -271,6 +279,10 @@ int negate(int x) {
  *   Rating: 3
  */
 int isPositive(int x) {
+  // to find (x > 0)
+  // = !(x < 0 | x = 0)
+  // "x >> 31" will give you 1 when x is negative
+  // "!x" will give you 1 if x = 0
   return !((x >> 31) | !x);
 }
 /* 
@@ -281,12 +293,16 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  int a = x >> 31;
-  int b = y >> 31;
-  a = !!a;
-  b = !!b;
-  x = x + (a << 31);
-  y = y + (b << 31);
+  int a = x >> 31;    // to check if x is positive or negative
+  int b = y >> 31;    // same as above
+  a = !!a;            // a becomes 1 when x is negative
+  b = !!b;            // same as above
+  x = x + (a << 31);  // separate x to two different parts to avoid overflow
+  y = y + (b << 31);  // same as above
+
+  // if x is negative and y is positive, return 1 immediately
+  // if x is positive and y is negative, return 0 immediately
+  // check if y-x is positive or negative
   return (!((!a) & b)) & ((a & !b) | !((y + ~x + 1) >> 31));
 }
 /*
