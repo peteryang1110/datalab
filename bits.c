@@ -220,7 +220,7 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
-  // "(x | -x) >> 31" = -1 when x is not 0
+  // "(x | -x + 1) >> 31" = -1 when x is not 0
   //                  = 0  when x is 0
   // add one to return 0 or 1
   return ((x | (~x + 1)) >> 31) + 1;
