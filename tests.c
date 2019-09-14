@@ -58,14 +58,12 @@ unsigned f2u(float f) {
    synchronized with ISO/IEC 10646:2014, plus Amendment 1 (published
    2015-05-15).  */
 /* We do not support C11 <threads.h>.  */
-int test_bitAnd(int x, int y)
-{
-  return x&y;
+int test_bitAnd(int x, int y) {
+  return x & y;
 }
-int test_getByte(int x, int n)
-{
-    unsigned char byte;
-    switch(n) {
+int test_getByte(int x, int n) {
+  unsigned char byte;
+  switch (n) {
     case 0:
       byte = x;
       break;
@@ -78,13 +76,13 @@ int test_getByte(int x, int n)
     default:
       byte = x >> 24;
       break;
-    }
-    return (int) (unsigned) byte;
+  }
+  return (int)(unsigned)byte;
 }
 int test_logicalShift(int x, int n) {
-  unsigned u = (unsigned) x;
+  unsigned u = (unsigned)x;
   unsigned shifted = u >> n;
-  return (int) shifted;
+  return (int)shifted;
 }
 int test_bitCount(int x) {
   int result = 0;
@@ -93,23 +91,20 @@ int test_bitCount(int x) {
     result += (x >> i) & 0x1;
   return result;
 }
-int test_bang(int x)
-{
+int test_bang(int x) {
   return !x;
 }
 int test_tmin(void) {
   return 0x80000000;
 }
-int test_fitsBits(int x, int n)
-{
-  int TMin_n = -(1 << (n-1));
-  int TMax_n = (1 << (n-1)) - 1;
+int test_fitsBits(int x, int n) {
+  int TMin_n = -(1 << (n - 1));
+  int TMax_n = (1 << (n - 1)) - 1;
   return x >= TMin_n && x <= TMax_n;
 }
-int test_divpwr2(int x, int n)
-{
-    int p2n = 1<<n;
-    return x/p2n;
+int test_divpwr2(int x, int n) {
+  int p2n = 1 << n;
+  return x / p2n;
 }
 int test_negate(int x) {
   return -x;
@@ -117,8 +112,7 @@ int test_negate(int x) {
 int test_isPositive(int x) {
   return x > 0;
 }
-int test_isLessOrEqual(int x, int y)
-{
+int test_isLessOrEqual(int x, int y) {
   return x <= y;
 }
 /*
@@ -136,20 +130,20 @@ int test_ilog2(int x) {
   return result;
 }
 unsigned test_float_neg(unsigned uf) {
-    float f = u2f(uf);
-    float nf = -f;
-    if (isnan(f))
- return uf;
-    else
- return f2u(nf);
+  float f = u2f(uf);
+  float nf = -f;
+  if (isnan(f))
+    return uf;
+  else
+    return f2u(nf);
 }
 unsigned test_float_i2f(int x) {
-  float f = (float) x;
+  float f = (float)x;
   return f2u(f);
 }
 unsigned test_float_twice(unsigned uf) {
   float f = u2f(uf);
-  float tf = 2*f;
+  float tf = 2 * f;
   if (isnan(f))
     return uf;
   else
