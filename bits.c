@@ -245,7 +245,10 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  return 2;
+  // "(x << (32-n)) >> (32-n)" will give you the remainder of x / 2^(n-1)
+  // if the remainder = x, it means x can be represented => return true
+  // !(anything ^ x) is equivalent to (anything == x)
+  return !(((x << (32 + ~n + 1)) >> (32 + ~n + 1)) ^ x);
 }
 /* 
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
