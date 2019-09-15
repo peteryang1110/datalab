@@ -272,7 +272,7 @@ int divpwr2(int x, int n) {
   // if x is negative, x >> 31 is 0xff..ff, and 0xff..ff & anything = anything
   // if x is positve, x >> 31 is 0x0, and 0x0 & anything = 0x0
   int b = (x >> 31) & a;
-  // positive add 0, negative add 2^n -1
+  // positive add 0, negative add 2^n - 1
   return (x + b) >> n;
 }
 /* 
