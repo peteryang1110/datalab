@@ -210,7 +210,16 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+  int first = 0x1 + (0x1 << 8) + (0x1 << 16) + (0x1 << 24);  // 0000 0001 0000 0001 0000 0001 0000 0001
+  int second = 0xF;                                          // 0000 1111
+  // by shifting right 1 bit each time, we can get the sum of all bits
+  int resultFirst = (x & first) + ((x >> 1) & first) + ((x >> 2) & first) + ((x >> 3) & first) + ((x >> 4) & first) + ((x >> 5) & first) + ((x >> 6) & first) + ((x >> 7) & first);
+  /* the sum would be like:
+      0000 xxxx 0000 xxxx 0000 xxxx 0000 xxxx
+     in order to add together, shift right 8 bits each time to extract first four bits
+  */
+  int resultSecond = (resultFirst & second) + ((resultFirst >> 8) & second) + ((resultFirst >> 16) & second) + ((resultFirst >> 24) & second);
+  return resultSecond;
 }
 /* 
  * bang - Compute !x without using !
