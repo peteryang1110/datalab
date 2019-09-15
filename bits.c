@@ -268,9 +268,12 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-  // 1 << n = 2 ^ n
-  // x / (1 << n) = x / 2 ^n
-  return x / (1 << n);
+  int a = (1 << n) + ~1 + 1;  // 2^n - 1
+  // if x is negative, x >> 31 is 0xff..ff, and 0xff..ff 31 & anything = anything
+  // if x is positve, x >> 31 is 0x0, then 0x0 & anything = 0x0
+  int b = (x >> 31) & a;
+  // postive add 0, negative add 2^n -1
+  return (x + b) >> n;
 }
 /* 
  * negate - return -x 
